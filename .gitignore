@@ -14,5 +14,6 @@
 /submit.key
 /submit.token
 /zoobar/db
+/zoobar/db_old
 /lab*-handin.tar.gz
 __pycache__
