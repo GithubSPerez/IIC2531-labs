@@ -12,6 +12,7 @@ class BankRpcServer(rpclib.RpcServer):
 
     def rpc_transfer(self, sender, recipient, zoobars):
         #return None
+        log(self.caller)
         ret = bank.transfer(sender, recipient, zoobars)
         return ret
     
