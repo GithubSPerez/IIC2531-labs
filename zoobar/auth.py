@@ -1,8 +1,17 @@
 from zoodb import *
 from debug import *
 
+import os
 import hashlib
 import random
+import pbkdf2 as hasher
+
+def get_hash(cred, password):
+    h = hasher.PBKDF2(password, cred.salt).hexread(32)
+    return h
+
+def check_hash(cred, password):
+    return (get_hash(cred, password) == cred.password)
 
 def newtoken(db, cred):
     hashinput = "%s%.10f" % (cred.password, random.random())
@@ -15,7 +24,7 @@ def login(username, password):
     cred = db.query(Cred).get(username)
     if not cred:
         return None
-    if cred.password == password:
+    if check_hash(cred, password):
         return newtoken(db, cred)
     else:
         return None
@@ -28,8 +37,9 @@ def register(username, password):
 
     newcred = Cred()
 
+    newcred.salt = os.urandom(32)
     newcred.username = username
-    newcred.password = password
+    newcred.password = get_hash(newcred, password)
     
     c_db.add(newcred)
     c_db.commit()

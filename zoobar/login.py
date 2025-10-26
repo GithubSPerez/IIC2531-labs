@@ -4,7 +4,7 @@ from debug import *
 from zoodb import *
 
 import auth_client as auth_client
-import bank
+import bank_client as bank
 import random
 
 class User(object):

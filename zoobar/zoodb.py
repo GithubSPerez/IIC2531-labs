@@ -6,19 +6,25 @@ from debug import *
 
 PersonBase = declarative_base()
 CredBase = declarative_base()
+BankBase = declarative_base()
 TransferBase = declarative_base()
 
 class Person(PersonBase):
     __tablename__ = "person"
     username = Column(String(128), primary_key=True)
-    zoobars = Column(Integer, nullable=False, default=10)
     profile = Column(String(5000), nullable=False, default="")
 
 class Cred(CredBase):
     __tablename__ = "cred"
     username = Column(String(128), primary_key=True) # Comparte PK con person..? asumo que no hay problemas con esto
     password = Column(String(128))
+    salt = Column(String(32))
     token = Column(String(128))
+
+class Bank(BankBase):
+    __tablename__ = "bank"
+    username = Column(String(128), primary_key=True)
+    zoobars = Column(Integer, nullable=False, default=10)
 
 class Transfer(TransferBase):
     __tablename__ = "transfer"
@@ -47,6 +53,9 @@ def person_setup():
 def cred_setup():
     return dbsetup("cred", CredBase)
 
+def bank_setup():
+    return dbsetup("bank", BankBase)
+
 def transfer_setup():
     return dbsetup("transfer", TransferBase)
 
@@ -61,6 +70,7 @@ if __name__ == "__main__":
         person_setup()
         cred_setup()
     elif cmd == 'init-transfer':
+        bank_setup()
         transfer_setup()
     else:
         raise Exception("unknown command %s" % cmd)

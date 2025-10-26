@@ -7,7 +7,7 @@ import os
 import sandboxlib
 import hashlib
 import socket
-import bank
+import bank_client as bank
 import zoodb
 
 sys.path.append(os.getcwd())
@@ -33,7 +33,7 @@ class ProfileAPIServer(rpclib.RpcServer):
         return self.visitor
 
     def rpc_get_xfers(self, username):
-        return bank_client.get_log(username)
+        return bank.get_log(username)
 
     def rpc_get_user_info(self, username):
         return { 'username': self.user,

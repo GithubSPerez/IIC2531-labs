@@ -4,6 +4,7 @@ import rpclib
 
 sys.path.append(os.getcwd())
 import readconf
+import bank_client as bank
 
 
 
@@ -31,9 +32,12 @@ def register(username, password):
         ret = c.call('register', username = username, password = password)
     
     if not (ret is None):
-        p_db.add(newperson)
-        p_db.commit()
-        return ret
+        result = bank.register(username)
+
+        if not (result is None):
+            p_db.add(newperson)
+            p_db.commit()
+            return ret
     
     return None
 

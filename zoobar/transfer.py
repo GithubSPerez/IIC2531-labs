@@ -3,7 +3,7 @@ from flask import g, render_template, request
 from login import requirelogin
 from zoodb import *
 from debug import *
-import bank
+import bank_client as bank
 import traceback
 
 @catch_err
